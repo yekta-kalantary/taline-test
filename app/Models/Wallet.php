@@ -38,7 +38,7 @@ class Wallet extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function transactions(): HasMany
+    public function transactionHistories(): HasMany
     {
         return $this->hasMany(WalletTransactionHistory::class, 'wallet_id');
     }
