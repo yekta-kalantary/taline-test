@@ -4,10 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class WalletTransactionHistory extends Model
+class WalletTransaction extends Model
 {
     public $timestamps = false;
+
+    protected $fillable = [
+        'wallet_id',
+        'amount',
+        'description',
+        'transactionable_type',
+        'transactionable_id',
+    ];
+
+    protected $casts = [
+        'amount' => 'decimal:3',
+        'created_at' => 'datetime',
+    ];
 
     public static function boot()
     {
@@ -18,14 +32,13 @@ class WalletTransactionHistory extends Model
         });
     }
 
-    protected $fillable = [
-        'wallet_id',
-        'amount',
-        'created_at',
-    ];
-
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class, 'wallet_id');
+    }
+
+    public function transactionable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }
