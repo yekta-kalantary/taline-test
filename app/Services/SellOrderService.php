@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\AssetEnum;
 use App\Enums\OrderStatusEnum;
 use App\Enums\OrderTypeEnum;
 use App\Models\Order;
@@ -23,7 +22,7 @@ class SellOrderService extends OrderService
 
     public function place(): Order
     {
-        $order =  Order::create([
+        $order = Order::create([
             'user_id' => $this->user->id,
             'type' => $this->orderType,
             'price' => $this->pricePerGram,
@@ -34,8 +33,9 @@ class SellOrderService extends OrderService
             'status' => OrderStatusEnum::PENDING->value,
         ]);
 
-        $this->goldWallet->decrease($this->goldWeightInGrams ,description: 'Gold sold',transactionable:  $order);
-        $this->rialWallet->decrease($this->getFinalFeeAmount() , description: 'Sale fee',transactionable: $order);
+        $this->goldWallet->decrease($this->goldWeightInGrams, description: 'Gold sold', transactionable: $order);
+        $this->rialWallet->decrease($this->getFinalFeeAmount(), description: 'Sale fee', transactionable: $order);
+
         return $order;
     }
 }

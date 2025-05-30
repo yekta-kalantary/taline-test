@@ -62,11 +62,11 @@ class WalletService
 
     public function ensureSufficientFunds(float $amount, bool $force = false): void
     {
-        if($force) {
+        if ($force) {
             return;
         }
         $current = $this->wallet->refresh()->balance;
-        if ($amount >$current) {
+        if ($amount > $current) {
             throw new InsufficientFundsException($current, $amount);
         }
     }

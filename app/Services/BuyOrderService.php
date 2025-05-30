@@ -4,7 +4,6 @@ namespace App\Services;
 
 namespace App\Services;
 
-use App\Enums\AssetEnum;
 use App\Enums\OrderStatusEnum;
 use App\Enums\OrderTypeEnum;
 use App\Models\Order;
@@ -22,9 +21,10 @@ class BuyOrderService extends OrderService
         $amount = $this->getTotalTransactionAmount() + $this->getFinalFeeAmount();
         $this->rialWallet->ensureSufficientFunds($amount);
     }
+
     public function place(): Order
     {
-        $order =  Order::create([
+        $order = Order::create([
             'user_id' => $this->user->id,
             'type' => $this->orderType,
             'price' => $this->pricePerGram,
@@ -34,9 +34,9 @@ class BuyOrderService extends OrderService
             'fee_rate' => $this->getFeeRateByWeight(),
             'status' => OrderStatusEnum::PENDING->value,
         ]);
-        $this->rialWallet->decrease($this->getTotalTransactionAmount()  , description:'Buy order payment',transactionable: $order);
-        $this->rialWallet->decrease( $this->getFinalFeeAmount() ,description: 'Buy fee', transactionable: $order);
+        $this->rialWallet->decrease($this->getTotalTransactionAmount(), description: 'Buy order payment', transactionable: $order);
+        $this->rialWallet->decrease($this->getFinalFeeAmount(), description: 'Buy fee', transactionable: $order);
+
         return $order;
     }
-
 }
