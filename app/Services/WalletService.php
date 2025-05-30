@@ -130,7 +130,7 @@ class WalletService
             $this->ttl,
             fn () => $this->wallet
                 ->transactions()
-                ->orderBy('created_at')
+                ->orderBy('created_at' ,'desc')
                 ->paginate($perPage, ['*'], 'page', $page)
         );
     }
