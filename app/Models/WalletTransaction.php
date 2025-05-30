@@ -10,6 +10,15 @@ class WalletTransaction extends Model
 {
     public $timestamps = false;
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (self $model) {
+            $model->created_at = $model->freshTimestamp();
+        });
+    }
+
     protected $fillable = [
         'wallet_id',
         'amount',
@@ -20,17 +29,7 @@ class WalletTransaction extends Model
 
     protected $casts = [
         'amount' => 'decimal:3',
-        'created_at' => 'datetime',
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (self $model) {
-            $model->created_at = $model->freshTimestamp();
-        });
-    }
 
     public function wallet(): BelongsTo
     {
