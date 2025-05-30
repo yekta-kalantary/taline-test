@@ -71,7 +71,7 @@ class WalletService
         }
     }
 
-    public function addTransaction(
+    private function addTransaction(
         float $amount,
         bool $force = false,
         ?string $description = null,
@@ -95,6 +95,23 @@ class WalletService
         }
 
         return $this;
+    }
+
+    public function increase(
+        float $amount,
+        ?string $description = null,
+        ?\Illuminate\Database\Eloquent\Model $transactionable = null
+    ): self {
+        return $this->addTransaction(abs($amount), true, $description, $transactionable);
+    }
+
+    public function decrease(
+        float $amount,
+        bool $force = false,
+        ?string $description = null,
+        ?\Illuminate\Database\Eloquent\Model $transactionable = null
+    ): self {
+        return $this->addTransaction(-abs($amount), $force, $description, $transactionable);
     }
 
     public function getBalance(): float
