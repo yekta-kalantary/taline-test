@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Wallet::class, 'wallet_id')->constrained();
             $table->decimal('amount', 16, 3);
             $table->text('description');
-            $table->nullableMorphs('transactionable');
+            $table->nullableMorphs('transactionable' , 'trx');
             $table->timestamp('created_at');
         });
     }
