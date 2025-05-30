@@ -24,6 +24,7 @@ class Wallet extends Model
         'user_id',
         'asset',
         'balance',
+        'description',
     ];
 
     protected function casts(): array
