@@ -19,24 +19,24 @@ class TempDataSeeder extends Seeder
             'email' => 'ahmad@test.com',
             'password' => 'password',
         ]);
-        WalletService::getWallet(AssetEnum::RIAL, $userAhmad)->addTransaction(800000000, 'موجودی اولیه');
-        WalletService::getWallet(AssetEnum::GOLD, $userAhmad)->addTransaction(7, 'موجودی اولیه');
+        WalletService::getWallet(AssetEnum::RIAL, $userAhmad)->increase(800000000, 'موجودی اولیه');
+        WalletService::getWallet(AssetEnum::GOLD, $userAhmad)->increase(7, 'موجودی اولیه');
 
         $userReza = User::create([
             'name' => 'reza',
             'email' => 'reza@test.com',
             'password' => 'password',
         ]);
-        WalletService::getWallet(AssetEnum::RIAL, $userReza)->addTransaction(740000000, 'موجودی اولیه');
-        WalletService::getWallet(AssetEnum::GOLD, $userReza)->addTransaction(18, 'موجودی اولیه');
+        WalletService::getWallet(AssetEnum::RIAL, $userReza)->increase(740000000, 'موجودی اولیه');
+        WalletService::getWallet(AssetEnum::GOLD, $userReza)->increase(18, 'موجودی اولیه');
 
         $userAkbar = User::create([
             'name' => 'akbar',
             'email' => 'akbar@test.com',
             'password' => 'password',
         ]);
-        WalletService::getWallet(AssetEnum::RIAL, $userAkbar)->addTransaction(330000000, 'موجودی اولیه');
-        WalletService::getWallet(AssetEnum::GOLD, $userAkbar)->addTransaction(50, 'موجودی اولیه');
+        WalletService::getWallet(AssetEnum::RIAL, $userAkbar)->increase(330000000, 'موجودی اولیه');
+        WalletService::getWallet(AssetEnum::GOLD, $userAkbar)->increase(50, 'موجودی اولیه');
 
     }
 }
