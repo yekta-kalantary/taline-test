@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,13 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wallets', function (Blueprint $table) {
+        Schema::create('wallet_transaction_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id')->constrained();
-            $table->string('asset');
-            $table->decimal('balance', 16, 3);
-            $table->timestamp('updated_at');
-            $table->index(['user_id', 'asset']);
+            $table->foreignIdFor(Wallet::class, 'wallet_id')->constrained();
+            $table->decimal('amount', 16, 3);
+            $table->timestamp('created_at');
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wallets');
+        Schema::dropIfExists('wallet_transaction_histories');
     }
 };
