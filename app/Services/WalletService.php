@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Enums\AssetEnum;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 class WalletService
 {
     protected Wallet $wallet;
+
     protected int $ttl = 300;
 
     protected function __construct(Wallet $wallet)
@@ -27,10 +29,10 @@ class WalletService
     {
         $assetEnum = $asset instanceof AssetEnum
             ? $asset
-            : AssetEnum::tryFrom(strtolower((string)$asset));
+            : AssetEnum::tryFrom(strtolower((string) $asset));
 
         if (! $assetEnum) {
-            throw new AssetNotSupportedException((string)$asset);
+            throw new AssetNotSupportedException((string) $asset);
         }
 
         if ($user instanceof User) {
@@ -45,7 +47,7 @@ class WalletService
         } else {
             $auth = Auth::user();
             if (! $auth) {
-                throw new AuthenticationRequiredException();
+                throw new AuthenticationRequiredException;
             }
             $userModel = $auth;
         }
@@ -77,7 +79,7 @@ class WalletService
             $data = ['amount' => $amount, 'description' => $description];
             if ($transactionable) {
                 $data['transactionable_type'] = get_class($transactionable);
-                $data['transactionable_id']   = $transactionable->getKey();
+                $data['transactionable_id'] = $transactionable->getKey();
             }
             $this->wallet->transactions()->create($data);
             $this->wallet->balance += $amount;
@@ -97,7 +99,7 @@ class WalletService
         return Cache::remember(
             $this->cacheKeyBalance(),
             $this->ttl,
-            fn() => (float) $this->wallet->refresh()->balance
+            fn () => (float) $this->wallet->refresh()->balance
         );
     }
 
@@ -106,7 +108,7 @@ class WalletService
         return Cache::remember(
             $this->cacheKeyHistory($page, $perPage),
             $this->ttl,
-            fn() => $this->wallet
+            fn () => $this->wallet
                 ->transactions()
                 ->orderBy('created_at')
                 ->paginate($perPage, ['*'], 'page', $page)
