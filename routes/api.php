@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +20,13 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('wallet')->group(function () {
-        Route::get('balance', [\App\Http\Controllers\WalletController::class, 'balance']);
-        Route::get('transactions', [\App\Http\Controllers\WalletController::class, 'transactions']);
+        Route::get('balance', [WalletController::class, 'balance']);
+        Route::get('transactions', [WalletController::class, 'transactions']);
+    });
+
+
+    Route::prefix('order')->group(function () {
+        Route::post('place', [OrderController::class, 'place']);
     });
 
 });
