@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use RuntimeException;
 
-class NoUserContextAvailable extends RuntimeException
+class NoUserContextAvailableException extends RuntimeException
 {
     public function __construct()
     {
