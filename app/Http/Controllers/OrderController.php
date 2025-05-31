@@ -7,6 +7,7 @@ use App\Enums\OrderTypeEnum;
 use App\Exceptions\InsufficientFundsException;
 use App\Factories\CancelOrderHandlerFactory;
 use App\Factories\OrderHandlerFactory;
+use App\Jobs\OrderMatchingJob;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class OrderController extends Controller
     public function list(Request $request)
     {
         return Order::query()->where('user_id', Auth::id())->paginate(
-            perPage: $request->query('perPage', 15) ,
+            perPage: $request->query('perPage', 15),
             page: $request->query('page', 1));
     }
 
@@ -51,6 +52,8 @@ class OrderController extends Controller
 
             $order = $handler->place();
 
+            OrderMatchingJob::dispatch($order)->onQueue('default');
+
             return response()->json(['data' => $order], 201);
 
         } catch (InsufficientFundsException $e) {
@@ -72,7 +75,11 @@ class OrderController extends Controller
             abort(403, 'this order is filled');
         }
 
-        $handler = CancelOrderHandlerFactory::make($order)->cansel();
+        $handler = CancelOrderHandlerFactory::make($order)->cancel();
+
+        return response()->json([
+            'message' => 'order cancelled',
+        ]);
 
     }
 }
