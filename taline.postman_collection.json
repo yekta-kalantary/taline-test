@@ -1,0 +1,349 @@
+{
+	"info": {
+		"_postman_id": "dbce6301-badb-48ff-9f20-4eb15889cab6",
+		"name": "taline",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11320442"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"akbar@test.com\",\n    \"password\" : \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/auth/login",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "### Description\n\nAuthenticate a user using their email and password and return a Bearer token for future requests.\n\n**`POST`** `/auth/login`\n\n---\n\n#### Headers\n\n- `Content-Type: application/json`\n    \n\n---\n\n### Body Parameters (JSON)\n\n| Parameter | Type | Required | Rules |\n| --- | --- | --- | --- |\n| email | string | yes | valid email |\n| password | string | yes | non-empty |\n\n---"
+					},
+					"response": []
+				},
+				{
+					"name": "for test login",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/user",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "wallet",
+			"item": [
+				{
+					"name": "wallet get balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/wallet/balance?asset=gold",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"wallet",
+								"balance"
+							],
+							"query": [
+								{
+									"key": "asset",
+									"value": "gold"
+								}
+							]
+						},
+						"description": "### Description\n\nRetrieve the current balance of the authenticated user's wallet for a specific asset.\n\n**`GET`** `/api/wallet/balance`\n\n---\n\n#### Headers\n\n- `Authorization: Bearer {token}`\n    \n- `Content-Type: application/json`\n    \n\n---\n\n### Query Parameters\n\n| Parameter | Type | Required | Rules |\n| --- | --- | --- | --- |\n| asset | string | yes | list: gold, rial |\n\n---"
+					},
+					"response": []
+				},
+				{
+					"name": "wallet get history",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/wallet/transactions?asset=rial",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"wallet",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "asset",
+									"value": "rial"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						},
+						"description": "### Description\n\nRetrieve a paginated list of wallet transactions for a specific asset belonging to the authenticated user.\n\n**`GET`** `/api/wallet/transactions`\n\n---\n\n#### Headers\n\n- `Authorization: Bearer {token}`\n    \n- `Content-Type: application/json`\n    \n\n---\n\n### Query Parameters\n\n| Parameter | Type | Required | Default | Description |\n| --- | --- | --- | --- | --- |\n| asset | string | yes | — | `enum: AssetEnum` (e.g., `Gold`, `USDT`, etc.) |\n| page | integer | no | 1 | Page number for pagination |\n| per_page | integer | no | 20 | Number of transactions per page |\n\n---"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "order show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/order/:order_id/show",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"order",
+								":order_id",
+								"show"
+							],
+							"variable": [
+								{
+									"key": "order_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "### Description\n\nRetrieve the details of a specific order belonging to the authenticated user.\n\n**`GET`** `/api/order/{order}/show`\n\n---\n\n#### Headers\n\n- `Authorization: Bearer {token}`\n    \n- `Content-Type: application/json`\n    \n\n---\n\n### URL Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| order | string | yes | The ID of the order to retrieve |\n\n---"
+					},
+					"response": []
+				},
+				{
+					"name": "order list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/order/list",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"order",
+								"list"
+							]
+						},
+						"description": "### Description\n\nRetrieve a paginated list of the authenticated user's orders.\n\n**`GET`** `/api/order/list`\n\n---\n\n#### Headers\n\n- `Authorization: Bearer {token}`\n    \n- `Content-Type: application/json`\n    \n\n---\n\n### Query Parameters\n\n| Parameter | Type | Required | Default | Description |\n| --- | --- | --- | --- | --- |\n| page | integer | no | 1 | The page number |\n| perPage | integer | no | 15 | Number of orders per page |\n\n---"
+					},
+					"response": []
+				},
+				{
+					"name": "order place",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\" : \"sell\",\n    \"gold\" : 11,\n    \"price\" : 10000000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/order/place",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"order",
+								"place"
+							]
+						},
+						"description": "### Description\n\nPlace a new buy or sell order for gold. The system will validate the user's balance and queue the order for matching.\n\n**`POST`** `/api/order/place`\n\n---\n\n#### Headers\n\n- `Authorization: Bearer {token}`\n    \n- `Content-Type: application/json`\n    \n\n---\n\n### Body Parameters (JSON)\n\n| Parameter | Type | Required | Rules |\n| --- | --- | --- | --- |\n| type | string | yes | `enum: OrderTypeEnum` (e.g., `Buy`, `Sell`) |\n| gold | float | yes | `numeric`, min `0.001`, max `3 decimal places` |\n| price | integer | yes | min `1` (price per gram in Rials) |\n\n---"
+					},
+					"response": []
+				},
+				{
+					"name": "order cansel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}/order/:order_id/cancel",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"order",
+								":order_id",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "order_id",
+									"value": "13"
+								}
+							]
+						},
+						"description": "### Description\n\nCancel an active order placed by the authenticated user. Orders that are already cancelled or fully filled cannot be cancelled again.\n\n**`POST`** `/api/order/{order}/cancel`\n\n---\n\n#### Headers\n\n- `Authorization: Bearer {token}`\n    \n- `Content-Type: application/json`\n    \n\n---\n\n### URL Parameters\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| order | string | yes | The ID of the order to cancel |\n\n---"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{API_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
