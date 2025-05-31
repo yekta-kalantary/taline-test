@@ -28,6 +28,9 @@ class Order extends Model
     protected function casts(): array
     {
         return [
+            'amount' => 'float',
+            'remaining_amount' => 'float',
+            'price' => 'integer',
             'type' => OrderTypeEnum::class,
             'status' => OrderStatusEnum::class,
         ];
