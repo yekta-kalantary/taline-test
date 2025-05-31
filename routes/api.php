@@ -24,9 +24,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('transactions', [WalletController::class, 'transactions']);
     });
 
-
     Route::prefix('order')->group(function () {
         Route::post('place', [OrderController::class, 'place']);
+        Route::post('{order}/cancel', [OrderController::class, 'cancel']);
+        Route::get('{order}/show', [OrderController::class, 'show']);
     });
 
 });
