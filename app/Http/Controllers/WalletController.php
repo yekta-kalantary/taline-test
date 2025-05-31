@@ -18,12 +18,15 @@ class WalletController extends Controller
         $asset = $data['asset'];
 
         $walletService = WalletService::getWallet($asset);
-
+$data = [
+    'balance' => $walletService->getBalance(),
+    'asset' => $asset,
+];
+if($asset == 'rial') {
+    $data['balance_int_toman'] = $data['balance'] / 10;
+}
         return response()->json([
-            'data' => [
-                'balance' => $walletService->getBalance(),
-                'asset' => $asset,
-            ],
+            'data' => $data
         ]);
     }
 
@@ -36,10 +39,16 @@ class WalletController extends Controller
         $asset = $data['asset'];
 
         $walletService = WalletService::getWallet($asset);
-
-        return response()->json($walletService->history(
+        $history = $walletService->history(
             $request->input('page', 1),
             $request->input('per_page', 20),
-        ));
+        );
+        if($asset == 'rial') {
+            $history->getCollection()->map(function ($item) {
+                $this->amount = intval($item->amount);
+                $item->amount_in_toman = $item->amount / 10;
+            });
+        }
+        return response()->json($history);
     }
 }
