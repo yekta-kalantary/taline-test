@@ -79,4 +79,15 @@ To process order matching and background jobs, run:
 ```bash
 php artisan queue:work --queue=high,default
 ```
+---
+
+## 🛠 Post man collection
+
+```bash
+https://github.com/yekta-kalantary/taline-test/blob/main/taline.postman_collection.json
+```
+## 🛠 Api Doc
+the api doc is on postman when importing post man collection in the side panel of each request you can see the doc
+
+![Api Doc https://raw.githubusercontent.com/yekta-kalantary/taline-test/refs/heads/main/Screenshot%201404-03-10%20at%2012.56.28.png](https://raw.githubusercontent.com/yekta-kalantary/taline-test/refs/heads/main/Screenshot%201404-03-10%20at%2012.56.28.png)
 
