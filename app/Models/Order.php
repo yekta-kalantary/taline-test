@@ -20,6 +20,11 @@ class Order extends Model
         'status',
     ];
 
+    protected $appends = [
+        'price_in_toman',
+        'fee_in_toman',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -31,5 +36,15 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getPriceInTomanAttribute()
+    {
+        return $this->price / 10;
+    }
+
+    public function getFeeInTomanAttribute()
+    {
+        return $this->fee_amount / 10;
     }
 }
