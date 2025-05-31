@@ -14,16 +14,24 @@ use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
+    public function list(Request $request)
+    {
+        return Order::query()->where('user_id', Auth::id())->paginate(
+            perPage: $request->query('perPage', 15) ,
+            page: $request->query('page', 1));
+    }
 
     public function show(Order $order)
     {
-        if($order->user_id != Auth::id()){
-            abort(403 , 'you don\'t have permission');
+        if ($order->user_id != Auth::id()) {
+            abort(403, 'you don\'t have permission');
         }
+
         return response()->json([
-            'data' => $order
+            'data' => $order,
         ]);
     }
+
     public function place(Request $request)
     {
         $request->validate([
